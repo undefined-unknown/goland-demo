@@ -10,9 +10,11 @@ import (
 func NewRouter() *mux.Router {
 	router := mux.NewRouter()
 
-	router.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
+	register := NewRegister(router)
+
+	register.RegisterRoute("/ping", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("pong"))
-	})
+	}).Methods(http.MethodGet, http.MethodPost)
 
 	prefixRouter := router.PathPrefix("/api/v1").Subrouter()
 
