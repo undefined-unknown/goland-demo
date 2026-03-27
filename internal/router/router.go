@@ -12,9 +12,18 @@ func NewRouter() *mux.Router {
 
 	register := NewRegister(router)
 
-	register.RegisterRoute("/ping", func(w http.ResponseWriter, r *http.Request) {
+	register.RegisterRoute("/ping", false, func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("pong"))
 	}).Methods(http.MethodGet, http.MethodPost)
+
+	register.RegisterRoute("/template/list", false, func(w http.ResponseWriter, r *http.Request){
+		w.Write([]byte("template list"))
+	}).Methods(http.MethodGet)
+
+	register.RegisterRoute("/template/favorite", true, func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("template favorite"))
+	}).Methods(http.MethodPost)
+
 
 	prefixRouter := router.PathPrefix("/api/v1").Subrouter()
 
